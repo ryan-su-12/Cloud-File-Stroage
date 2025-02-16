@@ -21,7 +21,7 @@ func InitAWS() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// Get bucket name
+	// Set bucket name
 	BucketName = os.Getenv("AWS_BUCKET_NAME")
 
 	// Create AWS session
@@ -34,14 +34,13 @@ func InitAWS() {
 
 	S3Client = s3.New(sess)
 
-	// Test S3 connection by listing available buckets
+	// Test S3 connection
 	result, err := S3Client.ListBuckets(nil)
 	if err != nil {
 		log.Fatal("Failed to list S3 buckets:", err)
 	}
 
-	// Print bucket names
-	fmt.Println("✅ Successfully connected to AWS S3! Available Buckets:")
+	fmt.Println("✅ Connected to AWS S3! Available Buckets:")
 	for _, b := range result.Buckets {
 		fmt.Println(" -", *b.Name)
 	}

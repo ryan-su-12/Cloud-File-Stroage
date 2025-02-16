@@ -1,17 +1,10 @@
 package main
 
 import (
-	"go-gin-app/config"
 	"log"
-	/*
-	"log"
-	"os"
-	
 	"github.com/gin-gonic/gin"
-	"Backend/config"
-	"Backend/auth"
-	"Backend/handlers"
-	*/
+	"go-gin-app/config"
+	"go-gin-app/handlers"
 )
 
 func main() {
@@ -20,31 +13,16 @@ func main() {
 	// Initialize AWS connection
 	config.InitAWS()
 
-	log.Println("✅ AWS setup complete!")
-}
-/*
-func main() {
-	// Initialize AWS and JWT setup
-	config.InitAWS()
-
+	// Create Gin router
 	router := gin.Default()
 
-	// Public routes
-	router.POST("/login", auth.LoginUser)
-
-	// Protected routes (require JWT)
-	protected := router.Group("/")
-	protected.Use(auth.ValidateToken)
-	protected.POST("/upload", handlers.UploadFile)
-	protected.GET("/files/:id", handlers.GetFile)
-	protected.DELETE("/files/:id", handlers.DeleteFile)
+	// Routes
+	router.POST("/upload", handlers.UploadFile)
+	router.GET("/files/:id", handlers.GetFile)
+	router.DELETE("/files/:id", handlers.DeleteFile)
+	router.GET("/list-files", handlers.ListFiles)
 
 	// Start server
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	log.Printf("Starting server on port %s...", port)
-	router.Run(":" + port)
+	log.Println("✅ Server is running on http://localhost:8080")
+	router.Run(":8080")
 }
-	*/

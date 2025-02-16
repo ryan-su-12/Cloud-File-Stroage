@@ -2,17 +2,18 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-file-storage/config"
+	"go-gin-app/config"
 	"net/http"
 	"github.com/aws/aws-sdk-go/service/s3"
+
 )
 
-func GetFile(c *gin.Context) {
+func GetFile(c *gin.Context) {  // ✅ Only this function should be here
 	filename := c.Param("id")
 
 	req, _ := config.S3Client.GetObjectRequest(&s3.GetObjectInput{
-		Bucket: aws.String(config.BucketName),
-		Key:    aws.String(filename),
+		Bucket: &config.BucketName,
+		Key:    &filename,
 	})
 
 	url, err := req.Presign(15 * 60)
@@ -23,3 +24,4 @@ func GetFile(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"download_url": url})
 }
+

@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"go-file-storage/config"
+	"go-gin-app/config"
 	"net/http"
 	"strings"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/aws"  // ✅ Add this line
 )
 
 func UploadFile(c *gin.Context) {
@@ -24,8 +26,8 @@ func UploadFile(c *gin.Context) {
 	}
 
 	_, err = config.S3Client.PutObject(&s3.PutObjectInput{
-		Bucket: aws.String(config.BucketName),
-		Key:    aws.String(filename),
+		Bucket: &config.BucketName,
+		Key:    &filename,
 		Body:   f,
 		ACL:    aws.String("private"),
 	})
@@ -35,5 +37,7 @@ func UploadFile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "file_url": "https://s3.amazonaws.com/" + config.BucketName + "/" + filename})
+	fileURL := fmt.Sprintf("https://%s.s3.amazonaws.com/%s", config.BucketName, filename)
+
+	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "file_url": fileURL})
 }

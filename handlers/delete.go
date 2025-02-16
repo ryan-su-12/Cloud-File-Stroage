@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-file-storage/config"
+	"go-gin-app/config"
 	"net/http"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/aws"  // ✅ Add this
 )
 
 func DeleteFile(c *gin.Context) {
