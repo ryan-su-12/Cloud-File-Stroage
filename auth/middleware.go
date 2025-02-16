@@ -1,5 +1,5 @@
 package auth
-
+// easter egg
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/dgrijalva/jwt-go"
